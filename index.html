@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sound Rabbit — Coming Soon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Work+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome for social + icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      integrity="sha512-3hG8v9Dx6+aw9BvF6R9GdlGDpZo7o2lq3/XYKpJ7ZRE2h2Dc6+QgnHnNwGVJ2N9o8WVy2Vqq42XLBKHhwqzl0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      :root {
+        --spotify-green: #1db954;
+      }
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+      }
+      body {
+        font-family: "Work Sans", Arial, sans-serif;
+        background: linear-gradient(145deg, #000 0%, #121212 100%);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        text-align: center;
+      }
+      .main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .wrapper {
+        max-width: 900px;
+        padding: 0 1rem;
+      }
+      .brand {
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 0.25rem;
+        text-transform: uppercase;
+        opacity: 0.7;
+        margin-bottom: 1.5rem;
+      }
+      h1 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 3.5rem;
+        font-weight: 600;
+        line-height: 1.15;
+        margin: 0 0 2rem;
+      }
+      .cta {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 3rem;
+      }
+      .cta a {
+        display: inline-block;
+        padding: 0.75rem 2rem;
+        font-size: 0.85rem;
+        letter-spacing: 0.05rem;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #fff;
+        border: 2px solid var(--spotify-green);
+        border-radius: 40px;
+        transition: background 0.25s ease, color 0.25s ease;
+      }
+      .cta a.primary {
+        background: var(--spotify-green);
+        color: #000;
+      }
+      .cta a:hover {
+        background: var(--spotify-green);
+        color: #000;
+      }
+      .social {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        font-size: 1.1rem;
+        padding: 1rem 0;
+      }
+      .social a {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #555;
+        border-radius: 50%;
+        color: #fff;
+        transition: background 0.3s ease, border-color 0.3s ease;
+      }
+      .social a:hover {
+        background: var(--spotify-green);
+        border-color: var(--spotify-green);
+        color: #000;
+      }
+      /* Responsive tweaks */
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <div class="wrapper">
+        <div class="brand">Sound Rabbit</div>
+        <h1>New Things Coming&nbsp;Soon</h1>
+        <div class="cta">
+          <a href="#" class="primary">Stay Tuned for Updates</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
