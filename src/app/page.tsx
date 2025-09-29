@@ -1,6 +1,6 @@
 "use client";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -497,14 +497,7 @@ function CustomMusic() {
 }
 
 function RealtimeDashboard() {
-  const stats = [
-    { label: "오늘 조회수", value: "1,234,567" },
-    { label: "예상 정산액", value: "$2,456" },
-    { label: "이번 달 수익", value: "$18,234" },
-  ];
-
-  // 최근 90일 수익 데이터 생성
-  const generateRevenueData = () => {
+  const revenueData = useMemo(() => {
     const data = [];
     const today = new Date();
 
@@ -512,7 +505,6 @@ function RealtimeDashboard() {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
 
-      // 실제같은 수익 데이터 생성 (트렌드 포함)
       const baseRevenue = 50 + Math.sin(i / 30) * 20; // 월간 주기
       const weeklyPattern = Math.sin(i / 7) * 10; // 주간 패턴
       const randomVariation = (Math.random() - 0.5) * 30;
@@ -529,234 +521,270 @@ function RealtimeDashboard() {
         displayDate: date.getDate(),
       });
     }
-    return data;
-  };
 
-  const revenueData = generateRevenueData();
-  const maxRevenue = Math.max(...revenueData.map((d) => d.revenue));
-  const minRevenue = Math.min(...revenueData.map((d) => d.revenue));
+    return data;
+  }, []);
+
+  const last90 = revenueData.slice(-90);
+  const lastIndex = last90.length - 1;
+
+  const maxRevenue = last90.length
+    ? Math.max(...last90.map((d) => d.revenue))
+    : 0;
+  const minRevenue = last90.length
+    ? Math.min(...last90.map((d) => d.revenue))
+    : 0;
+  const total = Math.max(last90.length - 1, 1);
+
+  const xForIndex = (i: number) => (i / total) * 100;
+  const yForRevenue = (rev: number) =>
+    40 -
+    ((rev - minRevenue) / (maxRevenue - minRevenue || 1)) * 36 -
+    2;
+
+  const linePoints = last90
+    .map((point, i) => `${xForIndex(i)},${yForRevenue(point.revenue)}`)
+    .join(" ");
+  const fillPoints = `0,40 ${linePoints} 100,40`;
+
   const today = new Date();
+  const dayMs = 24 * 60 * 60 * 1000;
+
+  const daysBeforeTicks = Array.from(
+    new Set([0, 30, 60, lastIndex].filter((offset) => offset >= 0))
+  ).sort((a, b) => a - b);
+
+  const indexForDaysBefore = (daysBefore: number) =>
+    Math.max(lastIndex - daysBefore, 0);
+
+  const averageRevenue =
+    last90.length > 0
+      ? last90.reduce((sum, d) => sum + d.revenue, 0) / last90.length
+      : 0;
+
+  const todayRevenue = last90[lastIndex]?.revenue ?? 0;
+  const weeklyRevenue = last90
+    .slice(Math.max(last90.length - 7, 0))
+    .reduce((sum, d) => sum + d.revenue, 0);
+  const monthlyRevenue = last90
+    .slice(Math.max(last90.length - 30, 0))
+    .reduce((sum, d) => sum + d.revenue, 0);
+
+  const formatCurrency = (value: number) =>
+    `$${Math.round(value).toLocaleString("en-US")}`;
+
+  const stats = [
+    {
+      label: "오늘 예상 정산액",
+      value: formatCurrency(todayRevenue),
+      helper: "실시간 집계 기준",
+    },
+    {
+      label: "최근 7일 수익",
+      value: formatCurrency(weeklyRevenue),
+      helper: "조회수 기반 자동 정산",
+    },
+    {
+      label: "최근 30일 수익",
+      value: formatCurrency(monthlyRevenue),
+      helper: "상승 추세 반영",
+    },
+  ];
 
   return (
     <section className="section" aria-label="실시간 수익 대시보드">
       <div className="wrapper">
+        <ScrollReveal delay={0.2}>
+          <StaggerReveal
+            className="mt-6 grid gap-4 md:grid-cols-3"
+            staggerDelay={0.12}
+          >
+            {stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="card p-5 bg-white/5 border border-white/10"
+              >
+                <div className="text-sm text-white/50">{stat.label}</div>
+                <div className="mt-2 text-2xl font-semibold text-white/90">
+                  {stat.value}
+                </div>
+                <div className="mt-1 text-xs text-white/40">
+                  {stat.helper}
+                </div>
+              </div>
+            ))}
+          </StaggerReveal>
+        </ScrollReveal>
         <ScrollReveal delay={0.4}>
           <div className="card p-6 mt-6">
             <div className="flex items-center justify-between mb-4">
               <div className="text-white/80 font-semibold">
                 최근 90일 수익 추세
               </div>
-              {/* max/min 은 보이는 90일 기준으로 계산 */}
-              {(() => {
-                const today = new Date();
-                const last90 = revenueData.slice(-90);
-                const maxRevenue = Math.max(...last90.map((d) => d.revenue));
-                const minRevenue = Math.min(...last90.map((d) => d.revenue));
-                const total = Math.max(last90.length - 1, 1);
-                const xForIndex = (i: number) => (i / total) * 100;
-                const yForRevenue = (rev: number) =>
-                  40 -
-                  ((rev - minRevenue) / (maxRevenue - minRevenue || 1)) * 36 -
-                  2;
-
-                const linePoints = last90
-                  .map((p, i) => `${xForIndex(i)},${yForRevenue(p.revenue)}`)
-                  .join(" ");
-                const fillPoints = `0,40 ${linePoints} 100,40`;
-
-                // 그리드 라인과 일치하는 날짜 인덱스 계산
-                const gridIndices = [0, 30, 60, 89]; // 90일 전, 60일 전, 30일 전, 오늘
-
-                return (
-                  <>
-                    <div className="text-sm text-white/60">
-                      최고: ${Math.round(maxRevenue)} | 최저: $
-                      {Math.round(minRevenue)}
-                    </div>
-
-                    <motion.div
-                      className="mt-3 h-64 w-full bg-white/5 rounded-xl overflow-hidden relative p-4"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.8 }}
-                      viewport={{ once: true }}
-                    >
-                      {/* Y축 레이블 */}
-                      <div className="absolute left-1 top-4 bottom-4 flex flex-col justify-between text-xs text-white/40">
-                        <span>${Math.round(maxRevenue)}</span>
-                        <span>
-                          ${Math.round((maxRevenue + minRevenue) / 2)}
-                        </span>
-                        <span>${Math.round(minRevenue)}</span>
-                      </div>
-
-                      {/* X축 레이블: 차트 여백(ml-6 mr-2)과 동일하게 맞춤 */}
-                      <div className="absolute bottom-1 left-6 right-2 flex justify-between text-xs text-white/40">
-                        {gridIndices.map((daysBefore) => (
-                          <span key={daysBefore}>
-                            {new Date(
-                              today.getTime() - daysBefore * 24 * 60 * 60 * 1000
-                            ).toLocaleDateString("ko-KR", {
-                              month: "short",
-                              day: "numeric",
-                            })}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* 차트 영역 */}
-                      <div className="ml-6 mr-2 mt-2 mb-6 h-48 relative">
-                        <svg
-                          viewBox="0 0 100 40"
-                          className="absolute inset-0 w-full h-full"
-                          role="img"
-                          aria-label="90일 수익 추세 그래프"
-                        >
-                          <defs>
-                            <linearGradient
-                              id="revenueGradient"
-                              x1="0"
-                              x2="0"
-                              y1="0"
-                              y2="1"
-                            >
-                              <stop
-                                offset="0%"
-                                stopColor={COLORS.primary}
-                                stopOpacity="0.3"
-                              />
-                              <stop
-                                offset="100%"
-                                stopColor={COLORS.primary}
-                                stopOpacity="0.05"
-                              />
-                            </linearGradient>
-                            <filter id="glow">
-                              <feGaussianBlur
-                                stdDeviation="1"
-                                result="coloredBlur"
-                              />
-                              <feMerge>
-                                <feMergeNode in="coloredBlur" />
-                                <feMergeNode in="SourceGraphic" />
-                              </feMerge>
-                            </filter>
-                          </defs>
-
-                          {/* 그리드 라인 */}
-                          <g opacity="0.1">
-                            {/* 가로선 */}
-                            <line
-                              x1="0"
-                              y1="10"
-                              x2="100"
-                              y2="10"
-                              stroke="white"
-                              strokeWidth="0.5"
-                            />
-                            <line
-                              x1="0"
-                              y1="20"
-                              x2="100"
-                              y2="20"
-                              stroke="white"
-                              strokeWidth="0.5"
-                            />
-                            <line
-                              x1="0"
-                              y1="30"
-                              x2="100"
-                              y2="30"
-                              stroke="white"
-                              strokeWidth="0.5"
-                            />
-                            {/* 세로선: 데이터 인덱스 기준으로 정확히 위치 */}
-                            {gridIndices.map((daysBefore, idx) => (
-                              <line
-                                key={daysBefore}
-                                x1={xForIndex(89 - daysBefore)}
-                                y1="0"
-                                x2={xForIndex(89 - daysBefore)}
-                                y2="40"
-                                stroke="white"
-                                strokeWidth="0.5"
-                              />
-                            ))}
-                          </g>
-
-                          {/* 영역 채우기 */}
-                          <motion.polygon
-                            fill="url(#revenueGradient)"
-                            points={fillPoints}
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ duration: 1.5, delay: 0.5 }}
-                            viewport={{ once: true }}
-                          />
-
-                          {/* 메인 라인 */}
-                          <motion.polyline
-                            fill="none"
-                            stroke={COLORS.primary}
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            points={linePoints}
-                            filter="url(#glow)"
-                            initial={{ pathLength: 0 }}
-                            whileInView={{ pathLength: 1 }}
-                            transition={{
-                              duration: 2,
-                              delay: 0.3,
-                              ease: "easeOut",
-                            }}
-                            viewport={{ once: true }}
-                          />
-
-                          {/* 데이터 포인트들: 실제 인덱스로 x 계산 */}
-                          {last90.map((p, i) =>
-                            i % 5 === 0 ? (
-                              <motion.circle
-                                key={i}
-                                cx={xForIndex(i)}
-                                cy={yForRevenue(p.revenue)}
-                                r="1.5"
-                                fill={COLORS.primary}
-                                stroke="white"
-                                strokeWidth="1"
-                                initial={{ scale: 0, opacity: 0 }}
-                                whileInView={{ scale: 1, opacity: 1 }}
-                                transition={{
-                                  duration: 0.3,
-                                  delay: 0.8 + (i / 5) * 0.05,
-                                  ease: "easeOut",
-                                }}
-                                viewport={{ once: true }}
-                                whileHover={{ scale: 1.5, opacity: 0.8 }}
-                              />
-                            ) : null
-                          )}
-                        </svg>
-                      </div>
-
-                      {/* 추가 통계 */}
-                      <div className="absolute bottom-8 right-4 text-xs text-white/60 space-y-1">
-                        <div>
-                          평균 일수익: $
-                          {(
-                            last90.reduce((sum, d) => sum + d.revenue, 0) /
-                            last90.length
-                          ).toFixed(0)}
-                        </div>
-                        <div className="text-emerald-400">
-                          ↗ 지난 30일 대비 +24%
-                        </div>
-                      </div>
-                    </motion.div>
-                  </>
-                );
-              })()}
+              <div className="text-sm text-white/60">
+                최고: ${Math.round(maxRevenue)} | 최저: $
+                {Math.round(minRevenue)}
+              </div>
             </div>
+            <motion.div
+              className="mt-3 h-64 w-full bg-white/5 rounded-xl overflow-hidden relative p-4"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="absolute left-1 top-4 bottom-4 flex flex-col justify-between text-xs text-white/40">
+                <span>${Math.round(maxRevenue)}</span>
+                <span>${Math.round((maxRevenue + minRevenue) / 2)}</span>
+                <span>${Math.round(minRevenue)}</span>
+              </div>
+
+              <div className="absolute bottom-1 left-6 right-2 flex justify-between text-xs text-white/40">
+                {daysBeforeTicks.map((daysBefore) => (
+                  <span key={daysBefore}>
+                    {new Date(
+                      today.getTime() - daysBefore * dayMs
+                    ).toLocaleDateString("ko-KR", {
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </span>
+                ))}
+              </div>
+
+              <div className="ml-6 mr-2 mt-2 mb-6 h-48 relative">
+                <svg
+                  viewBox="0 0 100 40"
+                  className="absolute inset-0 w-full h-full"
+                  role="img"
+                  aria-label="90일 수익 추세 그래프"
+                >
+                  <defs>
+                    <linearGradient
+                      id="revenueGradient"
+                      x1="0"
+                      x2="0"
+                      y1="0"
+                      y2="1"
+                    >
+                      <stop
+                        offset="0%"
+                        stopColor={COLORS.primary}
+                        stopOpacity="0.3"
+                      />
+                      <stop
+                        offset="100%"
+                        stopColor={COLORS.primary}
+                        stopOpacity="0.05"
+                      />
+                    </linearGradient>
+                    <filter id="glow">
+                      <feGaussianBlur stdDeviation="1" result="coloredBlur" />
+                      <feMerge>
+                        <feMergeNode in="coloredBlur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  <g opacity="0.1">
+                    <line
+                      x1="0"
+                      y1="10"
+                      x2="100"
+                      y2="10"
+                      stroke="white"
+                      strokeWidth="0.5"
+                    />
+                    <line
+                      x1="0"
+                      y1="20"
+                      x2="100"
+                      y2="20"
+                      stroke="white"
+                      strokeWidth="0.5"
+                    />
+                    <line
+                      x1="0"
+                      y1="30"
+                      x2="100"
+                      y2="30"
+                      stroke="white"
+                      strokeWidth="0.5"
+                    />
+                    {daysBeforeTicks.map((daysBefore) => (
+                      <line
+                        key={daysBefore}
+                        x1={xForIndex(indexForDaysBefore(daysBefore))}
+                        y1="0"
+                        x2={xForIndex(indexForDaysBefore(daysBefore))}
+                        y2="40"
+                        stroke="white"
+                        strokeWidth="0.5"
+                      />
+                    ))}
+                  </g>
+
+                  <motion.polygon
+                    fill="url(#revenueGradient)"
+                    points={fillPoints}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 1.5, delay: 0.5 }}
+                    viewport={{ once: true }}
+                  />
+
+                  <motion.polyline
+                    fill="none"
+                    stroke={COLORS.primary}
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    points={linePoints}
+                    filter="url(#glow)"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    transition={{
+                      duration: 2,
+                      delay: 0.3,
+                      ease: "easeOut",
+                    }}
+                    viewport={{ once: true }}
+                  />
+
+                  {last90.map((point, i) =>
+                    i % 5 === 0 ? (
+                      <motion.circle
+                        key={i}
+                        cx={xForIndex(i)}
+                        cy={yForRevenue(point.revenue)}
+                        r="1.5"
+                        fill={COLORS.primary}
+                        stroke="white"
+                        strokeWidth="1"
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: 0.8 + (i / 5) * 0.05,
+                          ease: "easeOut",
+                        }}
+                        viewport={{ once: true }}
+                        whileHover={{ scale: 1.5, opacity: 0.8 }}
+                      />
+                    ) : null
+                  )}
+                </svg>
+              </div>
+
+              <div className="absolute bottom-8 right-4 text-xs text-white/60 space-y-1">
+                <div>
+                  평균 일수익: $
+                  {Math.round(averageRevenue).toLocaleString("en-US")}
+                </div>
+                <div className="text-emerald-400">↗ 지난 30일 대비 +24%</div>
+              </div>
+            </motion.div>
           </div>
         </ScrollReveal>
       </div>
@@ -808,7 +836,7 @@ function Testimonials() {
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                "
+                &ldquo;
               </motion.div>
               <p className="mt-2 text-white/90 leading-relaxed">{t.quote}</p>
               <div className="mt-6 flex items-center gap-3">
