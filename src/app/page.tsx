@@ -1,103 +1,1021 @@
+"use client";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import Link from "next/link";
 import Image from "next/image";
 
-export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+const DASH_URL =
+  process.env.NEXT_PUBLIC_DASH_URL ?? "https://dash.soundrabbit.com"; // .env exposure requires NEXT_PUBLIC_
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+// 컬러 시스템
+const COLORS = {
+  primary: "#1EC5EB", // 메인 브랜드 컬러 (청록색)
+  primaryDark: "#0891b2", // 브랜드-600
+  primaryLight: "#2dd4bf", // 브랜드-400
+  secondary: "#10b981", // 에메랄드-500
+  accent: "#f59e0b", // 앰버-500
+  danger: "#ef4444", // 레드-500
+  success: "#10b981", // 에메랄드-500
+  warning: "#f59e0b", // 앰버-500
+  info: "#3b82f6", // 블루-500
+
+  // 포인트 컬러들
+  points: {
+    emerald: "#10b981",
+    blue: "#3b82f6",
+    rose: "#f43f5e",
+    violet: "#8b5cf6",
+    amber: "#f59e0b",
+    teal: "#14b8a6",
+    pink: "#ec4899",
+  },
+
+  // 그라디언트 컬러들
+  gradients: {
+    primary: "from-cyan-400 to-teal-600",
+    secondary: "from-emerald-500 to-teal-500",
+    accent: "from-amber-500 to-orange-600",
+    danger: "from-rose-500 to-pink-600",
+    violet: "from-violet-500 to-purple-600",
+  },
+};
+
+// 스크롤 애니메이션을 위한 컴포넌트
+function ScrollReveal({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.8, delay, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// 카드나 개별 요소를 위한 스테거 애니메이션
+function StaggerReveal({
+  children,
+  className = "",
+  staggerDelay = 0.1,
+}: {
+  children: React.ReactNode[];
+  className?: string;
+  staggerDelay?: number;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  return (
+    <div ref={ref} className={className}>
+      {children.map((child, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{
+            duration: 0.6,
+            delay: index * staggerDelay,
+            ease: "easeOut",
+          }}
+        >
+          {child}
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <main className="min-h-screen bg-black text-white overflow-x-hidden">
+      <Nav />
+      <Hero />
+      <About />
+      <ShortsRevenue />
+      <RevenueStructure />
+      <CustomMusic />
+      <RealtimeDashboard />
+      <Testimonials />
+      <HowTo />
+      <FAQ />
+      <Footer />
+    </main>
+  );
+}
+
+function Nav() {
+  return (
+    <div className="fixed top-0 left-0 right-0 z-40">
+      <div className="wrapper flex items-center justify-between py-4">
+        <Link href="#" className="flex items-center">
+          <Image
+            src="/logo.png"
+            alt="SoundRabbit"
+            width={36}
+            height={36}
+            priority
+            className="brightness-0 invert"
+          />
+          <span className="text-white/90 font-semibold tracking-wide">
+            SoundRabbit
+          </span>
+        </Link>
+        <nav
+          className="hidden md:flex items-center gap-6 text-white/70"
+          aria-label="주요 섹션"
+        >
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#about"
+            className="hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-md px-1"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            서비스 소개
           </a>
           <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#pricing"
+            className="hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-md px-1"
           >
-            Read our docs
+            수익 구조
+          </a>
+          <a
+            href="#how"
+            className="hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-md px-1"
+          >
+            이용방법
+          </a>
+          <a
+            href="#faq"
+            className="hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-md px-1"
+          >
+            FAQ
+          </a>
+        </nav>
+        <div className="flex items-center gap-3">
+          <a href={`${DASH_URL}/login`} className="button-ghost">
+            로그인
+          </a>
+          <a href={`${DASH_URL}/signup`} className="button-primary">
+            지금 시작하기
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
+  );
+}
+
+function Hero() {
+  return (
+    <section
+      className="section relative min-h-screen flex items-center"
+      aria-label="메인 배너"
+    >
+      {/* 배경 비디오 */}
+      <video
+        className="absolute inset-0 h-full w-full object-cover"
+        src="/hero.mp4" /* CDN 권장 */
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="/hero-poster.jpg"
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />
+
+      <div className="wrapper relative z-10 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="badge mb-4">모든 크리에이터를 위한 새로운 수익</div>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
+            SoundRabbit
+          </h1>
+          <p className="mt-4 text-lg md:text-2xl text-white/80">
+            음원을 쓰기만 해도 수익이 따라오는 플랫폼.
+          </p>
+          <div className="mt-8 flex items-center justify-center gap-3">
+            <a href={`${DASH_URL}/signup`} className="button-primary">
+              지금 시작하기
+            </a>
+            <a href="#about" className="button-ghost">
+              서비스 살펴보기
+            </a>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function About() {
+  const slider = [
+    { title: "유튜브 쇼츠", icon: "▶", color: "#ef4444" },
+    { title: "브이로그", icon: "📹", color: "#f59e0b" },
+    { title: "광고 영상", icon: "📢", color: "#10b981" },
+  ];
+  return (
+    <section id="about" className="section" aria-label="서비스 소개">
+      <div className="wrapper grid md:grid-cols-2 gap-10 items-center">
+        <ScrollReveal>
+          <div>
+            <h2 className="text-3xl md:text-5xl font-bold">
+              What is SoundRabbit?
+            </h2>
+            <p className="mt-6 text-white/80 leading-relaxed">
+              유튜브, 쇼츠, 브이로그, 광고 등 다양한 콘텐츠에서 음원을 활용하고
+              수익을 창출할 수 있는 크리에이터 수익화 플랫폼입니다.
+            </p>
+            <p className="mt-4 text-white/60">
+              콘텐츠를 만들기만 해도 수익이 따라오는 시대, 지금 사운드래빗에서
+              시작하세요.
+            </p>
+            <div className="mt-6">
+              <a href={`${DASH_URL}/signup`} className="button-primary">
+                자세히 알아보기
+              </a>
+            </div>
+          </div>
+        </ScrollReveal>
+        {/* 미니 슬라이더 */}
+        <ScrollReveal delay={0.2}>
+          <div className="card p-6">
+            <div className="overflow-x-auto flex gap-4 snap-x">
+              {slider.map((item, i) => (
+                <motion.div
+                  key={i}
+                  className="min-w-[260px] h-56 rounded-2xl border border-white/10 bg-white/5 flex flex-col items-center justify-center snap-center"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <div className="text-5xl" style={{ color: item.color }}>
+                    {item.icon}
+                  </div>
+                  <div
+                    className="mt-3 font-semibold"
+                    style={{ color: item.color }}
+                  >
+                    {item.title}
+                  </div>
+                  <div className="text-sm text-white/60">미리보기</div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+function ShortsRevenue() {
+  const points = [
+    {
+      title: "누구나 무료 사용 가능",
+      desc: "회원가입만으로 모든 음원을 무료로 사용",
+      color: COLORS.points.emerald,
+    },
+    {
+      title: "조회수 기반 자동 수익",
+      desc: "영상 조회수에 따라 자동 정산",
+      color: COLORS.points.blue,
+    },
+    {
+      title: "쇼츠/롱폼 즉시 적용",
+      desc: "복잡한 등록 없이 바로 사용",
+      color: COLORS.points.rose,
+    },
+  ];
+  return (
+    <section className="section" aria-label="핵심 포인트">
+      <div className="wrapper">
+        <ScrollReveal className="text-center">
+          <h2 className="text-3xl md:text-5xl font-bold">
+            사용만 해도 수익 발생
+          </h2>
+        </ScrollReveal>
+        <ScrollReveal delay={0.2}>
+          <p className="mt-4 text-center text-white/70">
+            영상이 재생되면 조회수에 따라 수익이 자동 정산됩니다.
+          </p>
+        </ScrollReveal>
+        <StaggerReveal
+          className="mt-10 grid md:grid-cols-3 gap-6"
+          staggerDelay={0.15}
+        >
+          {points.map((p) => (
+            <motion.div
+              key={p.title}
+              className="card p-6"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div
+                className="text-sm badge mb-3"
+                style={{
+                  color: p.color,
+                  backgroundColor: `${p.color}20`,
+                }}
+              >
+                POINT
+              </div>
+              <h3 className="font-semibold text-lg">{p.title}</h3>
+              <p className="mt-2 text-white/70 text-sm">{p.desc}</p>
+            </motion.div>
+          ))}
+        </StaggerReveal>
+      </div>
+    </section>
+  );
+}
+
+function RevenueStructure() {
+  return (
+    <section id="pricing" className="section" aria-label="수익 구조">
+      <div className="wrapper grid md:grid-cols-2 gap-10 items-center">
+        <ScrollReveal>
+          <div>
+            <h2 className="text-3xl md:text-5xl font-bold">
+              높은 정산, 확실한 수익
+            </h2>
+            <p className="mt-4 text-white/70">
+              중간 유통사 없이 직접 정산하여 최대 수익을 돌려드립니다.
+            </p>
+            <ul className="mt-6 space-y-3 text-white/80">
+              <motion.li
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                viewport={{ once: true }}
+              >
+                ✔ 업계 최고 수익률
+              </motion.li>
+              <motion.li
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                ✔ 타사 대비 최대 5배 수익
+              </motion.li>
+              <motion.li
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                viewport={{ once: true }}
+              >
+                ✔ 정산 수수료 0%
+              </motion.li>
+            </ul>
+          </div>
+        </ScrollReveal>
+        {/* 심플 바 차트 */}
+        <ScrollReveal delay={0.3}>
+          <div className="card p-6">
+            <h4 className="font-semibold text-white/80">수익률 비교</h4>
+            <div className="mt-6 grid grid-cols-2 gap-6 items-end h-52">
+              <Bar label="업계 평균" ratio={0.4} color="#9ca3af" />
+              <Bar label="사운드래빗" ratio={1.0} color={COLORS.primary} />
+            </div>
+            <div
+              className="mt-6 text-center font-semibold"
+              style={{ color: COLORS.points.rose }}
+            >
+              정산 수수료 0%
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+function Bar({
+  label,
+  ratio,
+  color,
+}: {
+  label: string;
+  ratio: number;
+  color: string;
+}) {
+  // Clamp ratio between 0.1 and 1, then map to 0..160px
+  const r = Math.max(0.1, Math.min(1, ratio));
+  const height = r * 160; // px
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <motion.div
+        className="w-16 rounded-lg"
+        style={{ background: color }}
+        initial={{ height: 0 }}
+        whileInView={{ height }}
+        transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+        viewport={{ once: true }}
+      />
+      <motion.div
+        className="text-sm text-white/80 font-medium"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.8 }}
+        viewport={{ once: true }}
+      >
+        {label}
+      </motion.div>
+    </div>
+  );
+}
+
+function CustomMusic() {
+  const items = [
+    { title: "광고", emoji: "📢", gradient: COLORS.gradients.accent },
+    { title: "브이로그", emoji: "📹", gradient: COLORS.gradients.secondary },
+    { title: "쇼츠", emoji: "▶", gradient: COLORS.gradients.danger },
+    { title: "게임", emoji: "🎮", gradient: COLORS.gradients.violet },
+  ];
+  return (
+    <section className="section" aria-label="맞춤 음원 제작">
+      <div className="wrapper">
+        <ScrollReveal className="text-center">
+          <h2 className="text-3xl md:text-5xl font-bold">
+            맞춤 음원 제작 서비스
+          </h2>
+        </ScrollReveal>
+        <ScrollReveal delay={0.2}>
+          <p className="mt-3 text-center text-white/70">
+            영상 분위기/감정/장르에 맞춰 전문 작곡가가 제작합니다.
+          </p>
+        </ScrollReveal>
+        <StaggerReveal
+          className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4"
+          staggerDelay={0.1}
+        >
+          {items.map((it) => (
+            <motion.div
+              key={it.title}
+              className="card p-6 text-center"
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.div
+                className={`mx-auto w-16 h-16 rounded-2xl bg-gradient-to-br ${it.gradient} flex items-center justify-center text-3xl`}
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.2 }}
+              >
+                {it.emoji}
+              </motion.div>
+              <div className="mt-3 font-semibold">{it.title}</div>
+            </motion.div>
+          ))}
+        </StaggerReveal>
+        <ScrollReveal delay={0.5}>
+          <div className="text-center mt-10">
+            <a href={`${DASH_URL}/custom-music`} className="button-primary">
+              음원 제작 의뢰하기
+            </a>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+function RealtimeDashboard() {
+  const stats = [
+    { label: "오늘 조회수", value: "1,234,567" },
+    { label: "예상 정산액", value: "$2,456" },
+    { label: "이번 달 수익", value: "$18,234" },
+  ];
+
+  // 최근 90일 수익 데이터 생성
+  const generateRevenueData = () => {
+    const data = [];
+    const today = new Date();
+
+    for (let i = 89; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+
+      // 실제같은 수익 데이터 생성 (트렌드 포함)
+      const baseRevenue = 50 + Math.sin(i / 30) * 20; // 월간 주기
+      const weeklyPattern = Math.sin(i / 7) * 10; // 주간 패턴
+      const randomVariation = (Math.random() - 0.5) * 30;
+      const growth = i < 30 ? (30 - i) * 2 : 0; // 최근 성장 트렌드
+
+      const revenue = Math.max(
+        0,
+        baseRevenue + weeklyPattern + randomVariation + growth
+      );
+
+      data.push({
+        date: date.toISOString().split("T")[0],
+        revenue: Math.round(revenue * 100) / 100,
+        displayDate: date.getDate(),
+      });
+    }
+    return data;
+  };
+
+  const revenueData = generateRevenueData();
+  const maxRevenue = Math.max(...revenueData.map((d) => d.revenue));
+  const minRevenue = Math.min(...revenueData.map((d) => d.revenue));
+  const today = new Date();
+
+  return (
+    <section className="section" aria-label="실시간 수익 대시보드">
+      <div className="wrapper">
+        <ScrollReveal delay={0.4}>
+          <div className="card p-6 mt-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-white/80 font-semibold">
+                최근 90일 수익 추세
+              </div>
+              {/* max/min 은 보이는 90일 기준으로 계산 */}
+              {(() => {
+                const today = new Date();
+                const last90 = revenueData.slice(-90);
+                const maxRevenue = Math.max(...last90.map((d) => d.revenue));
+                const minRevenue = Math.min(...last90.map((d) => d.revenue));
+                const total = Math.max(last90.length - 1, 1);
+                const xForIndex = (i: number) => (i / total) * 100;
+                const yForRevenue = (rev: number) =>
+                  40 -
+                  ((rev - minRevenue) / (maxRevenue - minRevenue || 1)) * 36 -
+                  2;
+
+                const linePoints = last90
+                  .map((p, i) => `${xForIndex(i)},${yForRevenue(p.revenue)}`)
+                  .join(" ");
+                const fillPoints = `0,40 ${linePoints} 100,40`;
+
+                // 그리드 라인과 일치하는 날짜 인덱스 계산
+                const gridIndices = [0, 30, 60, 89]; // 90일 전, 60일 전, 30일 전, 오늘
+
+                return (
+                  <>
+                    <div className="text-sm text-white/60">
+                      최고: ${Math.round(maxRevenue)} | 최저: $
+                      {Math.round(minRevenue)}
+                    </div>
+
+                    <motion.div
+                      className="mt-3 h-64 w-full bg-white/5 rounded-xl overflow-hidden relative p-4"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.8 }}
+                      viewport={{ once: true }}
+                    >
+                      {/* Y축 레이블 */}
+                      <div className="absolute left-1 top-4 bottom-4 flex flex-col justify-between text-xs text-white/40">
+                        <span>${Math.round(maxRevenue)}</span>
+                        <span>
+                          ${Math.round((maxRevenue + minRevenue) / 2)}
+                        </span>
+                        <span>${Math.round(minRevenue)}</span>
+                      </div>
+
+                      {/* X축 레이블: 차트 여백(ml-6 mr-2)과 동일하게 맞춤 */}
+                      <div className="absolute bottom-1 left-6 right-2 flex justify-between text-xs text-white/40">
+                        {gridIndices.map((daysBefore) => (
+                          <span key={daysBefore}>
+                            {new Date(
+                              today.getTime() - daysBefore * 24 * 60 * 60 * 1000
+                            ).toLocaleDateString("ko-KR", {
+                              month: "short",
+                              day: "numeric",
+                            })}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* 차트 영역 */}
+                      <div className="ml-6 mr-2 mt-2 mb-6 h-48 relative">
+                        <svg
+                          viewBox="0 0 100 40"
+                          className="absolute inset-0 w-full h-full"
+                          role="img"
+                          aria-label="90일 수익 추세 그래프"
+                        >
+                          <defs>
+                            <linearGradient
+                              id="revenueGradient"
+                              x1="0"
+                              x2="0"
+                              y1="0"
+                              y2="1"
+                            >
+                              <stop
+                                offset="0%"
+                                stopColor={COLORS.primary}
+                                stopOpacity="0.3"
+                              />
+                              <stop
+                                offset="100%"
+                                stopColor={COLORS.primary}
+                                stopOpacity="0.05"
+                              />
+                            </linearGradient>
+                            <filter id="glow">
+                              <feGaussianBlur
+                                stdDeviation="1"
+                                result="coloredBlur"
+                              />
+                              <feMerge>
+                                <feMergeNode in="coloredBlur" />
+                                <feMergeNode in="SourceGraphic" />
+                              </feMerge>
+                            </filter>
+                          </defs>
+
+                          {/* 그리드 라인 */}
+                          <g opacity="0.1">
+                            {/* 가로선 */}
+                            <line
+                              x1="0"
+                              y1="10"
+                              x2="100"
+                              y2="10"
+                              stroke="white"
+                              strokeWidth="0.5"
+                            />
+                            <line
+                              x1="0"
+                              y1="20"
+                              x2="100"
+                              y2="20"
+                              stroke="white"
+                              strokeWidth="0.5"
+                            />
+                            <line
+                              x1="0"
+                              y1="30"
+                              x2="100"
+                              y2="30"
+                              stroke="white"
+                              strokeWidth="0.5"
+                            />
+                            {/* 세로선: 데이터 인덱스 기준으로 정확히 위치 */}
+                            {gridIndices.map((daysBefore, idx) => (
+                              <line
+                                key={daysBefore}
+                                x1={xForIndex(89 - daysBefore)}
+                                y1="0"
+                                x2={xForIndex(89 - daysBefore)}
+                                y2="40"
+                                stroke="white"
+                                strokeWidth="0.5"
+                              />
+                            ))}
+                          </g>
+
+                          {/* 영역 채우기 */}
+                          <motion.polygon
+                            fill="url(#revenueGradient)"
+                            points={fillPoints}
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 1.5, delay: 0.5 }}
+                            viewport={{ once: true }}
+                          />
+
+                          {/* 메인 라인 */}
+                          <motion.polyline
+                            fill="none"
+                            stroke={COLORS.primary}
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            points={linePoints}
+                            filter="url(#glow)"
+                            initial={{ pathLength: 0 }}
+                            whileInView={{ pathLength: 1 }}
+                            transition={{
+                              duration: 2,
+                              delay: 0.3,
+                              ease: "easeOut",
+                            }}
+                            viewport={{ once: true }}
+                          />
+
+                          {/* 데이터 포인트들: 실제 인덱스로 x 계산 */}
+                          {last90.map((p, i) =>
+                            i % 5 === 0 ? (
+                              <motion.circle
+                                key={i}
+                                cx={xForIndex(i)}
+                                cy={yForRevenue(p.revenue)}
+                                r="1.5"
+                                fill={COLORS.primary}
+                                stroke="white"
+                                strokeWidth="1"
+                                initial={{ scale: 0, opacity: 0 }}
+                                whileInView={{ scale: 1, opacity: 1 }}
+                                transition={{
+                                  duration: 0.3,
+                                  delay: 0.8 + (i / 5) * 0.05,
+                                  ease: "easeOut",
+                                }}
+                                viewport={{ once: true }}
+                                whileHover={{ scale: 1.5, opacity: 0.8 }}
+                              />
+                            ) : null
+                          )}
+                        </svg>
+                      </div>
+
+                      {/* 추가 통계 */}
+                      <div className="absolute bottom-8 right-4 text-xs text-white/60 space-y-1">
+                        <div>
+                          평균 일수익: $
+                          {(
+                            last90.reduce((sum, d) => sum + d.revenue, 0) /
+                            last90.length
+                          ).toFixed(0)}
+                        </div>
+                        <div className="text-emerald-400">
+                          ↗ 지난 30일 대비 +24%
+                        </div>
+                      </div>
+                    </motion.div>
+                  </>
+                );
+              })()}
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+function Testimonials() {
+  const items = [
+    {
+      quote: '"쇼츠 수익까지 챙길 수 있어 만족합니다."',
+      name: "크리에이터 A",
+      role: "게임 크리에이터",
+    },
+    {
+      quote: '"음원 제작 퀄리티가 방송국급이에요."',
+      name: "유튜버 B",
+      role: "음악 크리에이터",
+    },
+    {
+      quote: '"콘텐츠 퀄리티도 높이고 수익도 올렸습니다."',
+      name: "숏폼 제작자 C",
+      role: "브이로그 크리에이터",
+    },
+  ];
+  return (
+    <section className="section" aria-label="크리에이터 후기">
+      <div className="wrapper">
+        <ScrollReveal className="text-center">
+          <h2 className="text-3xl md:text-5xl font-bold">
+            크리에이터들의 리얼 후기
+          </h2>
+        </ScrollReveal>
+        <StaggerReveal
+          className="mt-10 grid md:grid-cols-3 gap-6"
+          staggerDelay={0.2}
+        >
+          {items.map((t) => (
+            <motion.div
+              key={t.name}
+              className="card p-6"
+              whileHover={{ scale: 1.02, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.div
+                className="text-4xl opacity-40"
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+                "
+              </motion.div>
+              <p className="mt-2 text-white/90 leading-relaxed">{t.quote}</p>
+              <div className="mt-6 flex items-center gap-3">
+                <motion.div
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
+                  style={{ backgroundColor: COLORS.primary }}
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{ duration: 0.3, delay: 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  {t.name.slice(-1)}
+                </motion.div>
+                <div>
+                  <div className="font-semibold">{t.name}</div>
+                  <div className="text-xs text-white/60">{t.role}</div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </StaggerReveal>
+      </div>
+    </section>
+  );
+}
+
+function HowTo() {
+  const steps = [
+    {
+      n: "1",
+      title: "회원가입 & 음원 사용 시작",
+      desc: "모든 음원을 무료로 사용",
+      gradient: COLORS.gradients.primary,
+    },
+    {
+      n: "2",
+      title: "영상 업로드 & 수익 집계",
+      desc: "조회수 기반 자동 정산",
+      gradient: COLORS.gradients.secondary,
+    },
+    {
+      n: "3",
+      title: "주간 자동 정산",
+      desc: "정기적으로 수익 수령",
+      gradient: COLORS.gradients.violet,
+    },
+  ];
+  return (
+    <section id="how" className="section" aria-label="이용 방법">
+      <div className="wrapper">
+        <ScrollReveal className="text-center">
+          <h2 className="text-3xl md:text-5xl font-bold">
+            이용 방법 – 쉬운 3단계
+          </h2>
+        </ScrollReveal>
+        <StaggerReveal
+          className="mt-10 grid md:grid-cols-3 gap-6"
+          staggerDelay={0.2}
+        >
+          {steps.map((s, index) => (
+            <motion.div
+              key={s.n}
+              className="card p-6"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.div
+                className={`w-12 h-12 rounded-xl bg-gradient-to-br ${s.gradient} flex items-center justify-center font-extrabold`}
+                initial={{ scale: 0, rotate: -180 }}
+                whileInView={{ scale: 1, rotate: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                {s.n}
+              </motion.div>
+              <div className="mt-4 font-semibold">{s.title}</div>
+              <div className="text-sm text-white/70">{s.desc}</div>
+            </motion.div>
+          ))}
+        </StaggerReveal>
+        <ScrollReveal delay={0.4}>
+          <div className="text-center mt-10">
+            <a href={`${DASH_URL}/signup`} className="button-primary">
+              지금 시작하기
+            </a>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+function FAQ() {
+  const items = [
+    {
+      q: "정산은 어떻게 이뤄지나요?",
+      a: "영상 조회 데이터를 기반으로 주간 단위 자동 정산됩니다.",
+    },
+    {
+      q: "상업적 이용 가능한가요?",
+      a: "네, SoundRabbit 내 제공 음원은 약관 범위에서 상업적 이용이 가능합니다.",
+    },
+    {
+      q: "저작권 문제는 없나요?",
+      a: "콘텐츠 ID 및 배포 파트너십을 통해 안전하게 관리됩니다.",
+    },
+  ];
+  return (
+    <section id="faq" className="section" aria-label="자주 묻는 질문">
+      <div className="wrapper">
+        <ScrollReveal className="text-center">
+          <h2 className="text-3xl md:text-5xl font-bold">FAQ</h2>
+        </ScrollReveal>
+        <StaggerReveal className="mt-8 space-y-3" staggerDelay={0.1}>
+          {items.map((it, idx) => (
+            <motion.details
+              key={idx}
+              className="card p-5 group open:shadow-lg"
+              whileHover={{ scale: 1.01 }}
+              transition={{ duration: 0.2 }}
+            >
+              <summary className="cursor-pointer font-semibold list-none flex items-center justify-between">
+                <span>{it.q}</span>
+                <motion.span
+                  className="text-white/40 group-open:rotate-180 transition"
+                  whileHover={{ scale: 1.2 }}
+                >
+                  ⌄
+                </motion.span>
+              </summary>
+              <motion.p
+                className="mt-3 text-white/70 leading-relaxed"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                {it.a}
+              </motion.p>
+            </motion.details>
+          ))}
+        </StaggerReveal>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="section pb-16" aria-label="푸터">
+      <div className="wrapper">
+        <ScrollReveal>
+          <div className="flex flex-wrap items-center justify-center gap-6 text-white/70">
+            <motion.a
+              href="#about"
+              className="hover:text-white"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.2 }}
+            >
+              서비스 소개
+            </motion.a>
+            <motion.a
+              href="#pricing"
+              className="hover:text-white"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.2 }}
+            >
+              이용약관
+            </motion.a>
+            <motion.a
+              href="#faq"
+              className="hover:text-white"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.2 }}
+            >
+              개인정보처리방침
+            </motion.a>
+            <motion.a
+              href="#faq"
+              className="hover:text-white"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.2 }}
+            >
+              FAQ
+            </motion.a>
+            <motion.a
+              href="#"
+              className="hover:text-white"
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.2 }}
+            >
+              문의하기
+            </motion.a>
+          </div>
+        </ScrollReveal>
+        <ScrollReveal delay={0.2}>
+          <div className="text-center mt-8 space-y-1 text-sm text-white/60">
+            <div>Email: contact@soundrabbit.com</div>
+            <div>Instagram: @soundrabbit.official</div>
+            <div>YouTube: SoundRabbit Channel</div>
+          </div>
+        </ScrollReveal>
+        <ScrollReveal delay={0.3}>
+          <div className="mt-8 border-t border-white/10 pt-6 text-center text-sm text-white/50">
+            © {new Date().getFullYear()} SoundRabbit. All rights reserved.
+          </div>
+        </ScrollReveal>
+      </div>
+    </footer>
   );
 }

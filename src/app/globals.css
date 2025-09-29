@@ -1,26 +1,73 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Optional: dark mode variant */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Theme Tokens */
+@theme {
+  /* 브랜드 컬러 스케일 (#1AA9C9 기반) */
+  --color-brand-50: #f0fdff;
+  --color-brand-100: #cffafe;
+  --color-brand-200: #a5f3fc;
+  --color-brand-300: #67e8f9;
+  --color-brand-400: #22d3ee;
+  --color-brand-500: #1aa9c9;
+  --color-brand-600: #0891b2;
+  --color-brand-700: #0e7490;
+  --color-brand-800: #155e75;
+  --color-brand-900: #164e63;
+
+  /* 폰트 패밀리 (Next 폰트와 연결) */
+  --font-sans: var(--font-noto), var(--font-inter), ui-sans-serif, system-ui,
+    sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Base */
+html,
+body {
+  @apply bg-black text-white scroll-smooth;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Helpers */
+.wrapper {
+  @apply max-w-6xl mx-auto px-4 md:px-6;
+}
+.section {
+  @apply relative py-24 md:py-32;
+}
+.card {
+  @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md shadow-lg;
+}
+.badge {
+  @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-medium tracking-wide bg-white/10 text-white/70;
+}
+
+.button-primary {
+  @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-semibold bg-brand-500 hover:bg-brand-600 text-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500;
+}
+.button-ghost {
+  @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-medium border border-white/20 text-white/90 hover:bg-white/10 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500;
+}
+
+/* Nice snap scrolling experience */
+main {
+  scroll-snap-type: y mandatory;
+}
+section {
+  scroll-snap-align: start;
+}
+
+/* Small motion polish */
+@keyframes fade-in-scale {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-fade-in-scale {
+  animation: fade-in-scale 0.35s ease-out both;
 }
