@@ -525,6 +525,12 @@ function CustomMusic() {
 
 function RealtimeDashboard() {
   const revenueData = useMemo(() => {
+    // 시드 기반 의사 난수 생성 (deterministic)
+    const seededRandom = (seed: number) => {
+      const x = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
+      return (x - Math.floor(x)) - 0.5;
+    };
+
     const data = [];
     const today = new Date();
 
@@ -534,7 +540,7 @@ function RealtimeDashboard() {
 
       const baseRevenue = 50 + Math.sin(i / 30) * 20; // 월간 주기
       const weeklyPattern = Math.sin(i / 7) * 10; // 주간 패턴
-      const randomVariation = (Math.random() - 0.5) * 30;
+      const randomVariation = seededRandom(i) * 30; // 결정적 난수
       const growth = i < 30 ? (30 - i) * 2 : 0; // 최근 성장 트렌드
 
       const revenue = Math.max(
