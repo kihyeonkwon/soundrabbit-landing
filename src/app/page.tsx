@@ -9,9 +9,9 @@ const DASH_URL =
 
 // 컬러 시스템
 const COLORS = {
-  primary: "#1EC5EB", // 메인 브랜드 컬러 (청록색)
-  primaryDark: "#0891b2", // 브랜드-600
-  primaryLight: "#2dd4bf", // 브랜드-400
+  primary: "#5b54d4", // 메인 브랜드 컬러 (보라색)
+  primaryDark: "#004AAD", // 브랜드 진한색
+  primaryLight: "#9c98e5", // 브랜드 연한색
   secondary: "#10b981", // 에메랄드-500
   accent: "#f59e0b", // 앰버-500
   danger: "#ef4444", // 레드-500
@@ -32,7 +32,7 @@ const COLORS = {
 
   // 그라디언트 컬러들
   gradients: {
-    primary: "from-cyan-400 to-teal-600",
+    primary: "from-[#004AAD] to-[#CB6CE6]", // 지금 시작하기 버튼 그라디언트
     secondary: "from-emerald-500 to-teal-500",
     accent: "from-amber-500 to-orange-600",
     danger: "from-rose-500 to-pink-600",
@@ -100,20 +100,47 @@ function StaggerReveal({
 }
 
 export default function Page() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "사운드래빗 SoundRabbit",
+    alternateName: "SoundRabbit",
+    url: "https://www.soundrabbit.com",
+    logo: "https://www.soundrabbit.com/soundrabbit.jpeg",
+    description:
+      "크리에이터를 위한 차세대 음원 수익 플랫폼. 유튜브 쇼츠, 틱톡, 릴스 등 숏폼 콘텐츠를 통해 음원 수익을 자동으로 창출할 수 있습니다.",
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "contact@soundrabbit.com",
+      contactType: "Customer Service",
+      availableLanguage: ["Korean", "English"],
+    },
+    sameAs: [
+      "https://www.instagram.com/soundrabbit.official",
+      "https://www.youtube.com/@SoundRabbitChannel",
+    ],
+  };
+
   return (
-    <main className="min-h-screen bg-black text-white overflow-x-hidden">
-      <Nav />
-      <Hero />
-      <About />
-      <ShortsRevenue />
-      <RevenueStructure />
-      <CustomMusic />
-      <RealtimeDashboard />
-      <Testimonials />
-      <HowTo />
-      <FAQ />
-      <Footer />
-    </main>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <main className="min-h-screen bg-black text-white overflow-x-hidden">
+        <Nav />
+        <Hero />
+        <About />
+        <ShortsRevenue />
+        <RevenueStructure />
+        <CustomMusic />
+        <RealtimeDashboard />
+        <Testimonials />
+        <HowTo />
+        <FAQ />
+        <Footer />
+      </main>
+    </>
   );
 }
 
@@ -538,9 +565,7 @@ function RealtimeDashboard() {
 
   const xForIndex = (i: number) => (i / total) * 100;
   const yForRevenue = (rev: number) =>
-    40 -
-    ((rev - minRevenue) / (maxRevenue - minRevenue || 1)) * 36 -
-    2;
+    40 - ((rev - minRevenue) / (maxRevenue - minRevenue || 1)) * 36 - 2;
 
   const linePoints = last90
     .map((point, i) => `${xForIndex(i)},${yForRevenue(point.revenue)}`)
@@ -608,9 +633,7 @@ function RealtimeDashboard() {
                 <div className="mt-2 text-2xl font-semibold text-white/90">
                   {stat.value}
                 </div>
-                <div className="mt-1 text-xs text-white/40">
-                  {stat.helper}
-                </div>
+                <div className="mt-1 text-xs text-white/40">{stat.helper}</div>
               </div>
             ))}
           </StaggerReveal>
@@ -669,13 +692,13 @@ function RealtimeDashboard() {
                     >
                       <stop
                         offset="0%"
-                        stopColor={COLORS.primary}
-                        stopOpacity="0.3"
+                        stopColor="#5b54d4"
+                        stopOpacity="0.4"
                       />
                       <stop
                         offset="100%"
-                        stopColor={COLORS.primary}
-                        stopOpacity="0.05"
+                        stopColor="#9c98e5"
+                        stopOpacity="0.1"
                       />
                     </linearGradient>
                     <filter id="glow">
@@ -736,7 +759,7 @@ function RealtimeDashboard() {
 
                   <motion.polyline
                     fill="none"
-                    stroke={COLORS.primary}
+                    stroke="#5b54d4"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -759,7 +782,7 @@ function RealtimeDashboard() {
                         cx={xForIndex(i)}
                         cy={yForRevenue(point.revenue)}
                         r="1.5"
-                        fill={COLORS.primary}
+                        fill="#5b54d4"
                         stroke="white"
                         strokeWidth="1"
                         initial={{ scale: 0, opacity: 0 }}
@@ -842,7 +865,7 @@ function Testimonials() {
               <div className="mt-6 flex items-center gap-3">
                 <motion.div
                   className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
-                  style={{ backgroundColor: COLORS.primary }}
+                  style={{ backgroundColor: "#5b54d4" }}
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   transition={{ duration: 0.3, delay: 0.2 }}

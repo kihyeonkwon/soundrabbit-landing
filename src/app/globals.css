@@ -5,17 +5,17 @@
 
 /* Theme Tokens */
 @theme {
-  /* 브랜드 컬러 스케일 (#1AA9C9 기반) */
-  --color-brand-50: #f0fdff;
-  --color-brand-100: #cffafe;
-  --color-brand-200: #a5f3fc;
-  --color-brand-300: #67e8f9;
-  --color-brand-400: #22d3ee;
-  --color-brand-500: #1aa9c9;
-  --color-brand-600: #0891b2;
-  --color-brand-700: #0e7490;
-  --color-brand-800: #155e75;
-  --color-brand-900: #164e63;
+  /* 브랜드 컬러 스케일 (#5b54d4 기반) */
+  --color-brand-50: #f5f5ff;
+  --color-brand-100: #ebebff;
+  --color-brand-200: #d7d6ff;
+  --color-brand-300: #c3c2ff;
+  --color-brand-400: #9c98e5;
+  --color-brand-500: #5b54d4;
+  --color-brand-600: #4a44b8;
+  --color-brand-700: #3a359c;
+  --color-brand-800: #2a2680;
+  --color-brand-900: #1a1764;
 
   /* 폰트 패밀리 (Next 폰트와 연결) */
   --font-sans: var(--font-noto), var(--font-inter), ui-sans-serif, system-ui,
@@ -43,7 +43,7 @@ body {
 }
 
 .button-primary {
-  @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-semibold bg-brand-500 hover:bg-brand-600 text-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500;
+  @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-semibold bg-gradient-to-r from-[#004AAD] to-[#CB6CE6] hover:opacity-90 text-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5b54d4];
 }
 .button-ghost {
   @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-medium border border-white/20 text-white/90 hover:bg-white/10 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500;
