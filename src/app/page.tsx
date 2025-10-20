@@ -528,7 +528,7 @@ function RealtimeDashboard() {
     // 시드 기반 의사 난수 생성 (deterministic)
     const seededRandom = (seed: number) => {
       const x = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
-      return (x - Math.floor(x)) - 0.5;
+      return x - Math.floor(x) - 0.5;
     };
 
     const data = [];
@@ -696,11 +696,7 @@ function RealtimeDashboard() {
                       y1="0"
                       y2="1"
                     >
-                      <stop
-                        offset="0%"
-                        stopColor="#5b54d4"
-                        stopOpacity="0.4"
-                      />
+                      <stop offset="0%" stopColor="#5b54d4" stopOpacity="0.4" />
                       <stop
                         offset="100%"
                         stopColor="#9c98e5"
