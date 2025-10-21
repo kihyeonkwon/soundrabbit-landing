@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const DASH_URL =
-  process.env.NEXT_PUBLIC_DASH_URL ?? "https://dash.soundrabbit.com"; // .env exposure requires NEXT_PUBLIC_
+  process.env.NEXT_PUBLIC_DASH_URL ?? "https://app.soundrabbitent.com"; // .env exposure requires NEXT_PUBLIC_
 
 // 컬러 시스템
 const COLORS = {
@@ -116,7 +116,7 @@ export default function Page() {
       availableLanguage: ["Korean", "English"],
     },
     sameAs: [
-      "https://www.instagram.com/soundrabbit.official",
+      "https://www.instagram.com/soundrabbit_official",
       "https://www.youtube.com/@SoundRabbitChannel",
     ],
   };
@@ -191,10 +191,10 @@ function Nav() {
           </a>
         </nav>
         <div className="flex items-center gap-3">
-          <a href={`${DASH_URL}/login`} className="button-ghost">
+          <a href={`${DASH_URL}/#/login`} className="button-ghost">
             로그인
           </a>
-          <a href={`${DASH_URL}/signup`} className="button-primary">
+          <a href={`${DASH_URL}/#/signup`} className="button-primary">
             지금 시작하기
           </a>
         </div>
@@ -229,6 +229,17 @@ function Hero() {
           transition={{ duration: 0.6 }}
         >
           <div className="badge mb-4">모든 크리에이터를 위한 새로운 수익</div>
+          <div className="flex justify-center overflow-hidden h-56">
+            <Image
+              src="/logo.png"
+              alt="SoundRabbit Logo"
+              width={300}
+              height={300}
+              priority
+              className="brightness-0 invert object-cover object-top"
+              style={{ marginTop: "-20px" }}
+            />
+          </div>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
             SoundRabbit
           </h1>
@@ -236,7 +247,7 @@ function Hero() {
             음원을 쓰기만 해도 수익이 따라오는 플랫폼.
           </p>
           <div className="mt-8 flex items-center justify-center gap-3">
-            <a href={`${DASH_URL}/signup`} className="button-primary">
+            <a href={`${DASH_URL}/#/signup`} className="button-primary">
               지금 시작하기
             </a>
             <a href="#about" className="button-ghost">
@@ -272,7 +283,7 @@ function About() {
               시작하세요.
             </p>
             <div className="mt-6">
-              <a href={`${DASH_URL}/signup`} className="button-primary">
+              <a href={`${DASH_URL}/#/signup`} className="button-primary">
                 자세히 알아보기
               </a>
             </div>
@@ -513,7 +524,7 @@ function CustomMusic() {
         </StaggerReveal>
         <ScrollReveal delay={0.5}>
           <div className="text-center mt-10">
-            <a href={`${DASH_URL}/custom-music`} className="button-primary">
+            <a href={`${DASH_URL}/#/custom-music`} className="button-primary">
               음원 제작 의뢰하기
             </a>
           </div>
@@ -944,7 +955,7 @@ function HowTo() {
         </StaggerReveal>
         <ScrollReveal delay={0.4}>
           <div className="text-center mt-10">
-            <a href={`${DASH_URL}/signup`} className="button-primary">
+            <a href={`${DASH_URL}/#/signup`} className="button-primary">
               지금 시작하기
             </a>
           </div>
@@ -958,15 +969,15 @@ function FAQ() {
   const items = [
     {
       q: "정산은 어떻게 이뤄지나요?",
-      a: "영상 조회 데이터를 기반으로 주간 단위 자동 정산됩니다.",
+      a: "영상 조회 데이터를 기반으로 매주 자동 정산이 진행됩니다. 정산 금액 및 내역은 대시보드에서 실시간으로 확인하실 수 있습니다.",
     },
     {
-      q: "상업적 이용 가능한가요?",
-      a: "네, SoundRabbit 내 제공 음원은 약관 범위에서 상업적 이용이 가능합니다.",
+      q: "상업적 이용이 가능한가요?",
+      a: "네, SoundRabbit 내 제공 음원은 약관 허용 범위에서 상업적 이용이 가능합니다.",
     },
     {
       q: "저작권 문제는 없나요?",
-      a: "콘텐츠 ID 및 배포 파트너십을 통해 안전하게 관리됩니다.",
+      a: "모든 음원은 콘텐츠 ID 및 정식 파트너십을 통해 안전하게 관리되며, 저작권 분쟁 발생 시 SoundRabbit이 정식 절차에 따라 대응을 지원합니다.",
     },
   ];
   return (
@@ -1059,7 +1070,17 @@ function Footer() {
         <ScrollReveal delay={0.2}>
           <div className="text-center mt-8 space-y-1 text-sm text-white/60">
             <div>Email: contact@soundrabbit.com</div>
-            <div>Instagram: @soundrabbit.official</div>
+            <div>
+              Instagram:{" "}
+              <a
+                href="https://www.instagram.com/soundrabbit_official"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition"
+              >
+                @soundrabbit_official
+              </a>
+            </div>
             <div>YouTube: SoundRabbit Channel</div>
           </div>
         </ScrollReveal>
