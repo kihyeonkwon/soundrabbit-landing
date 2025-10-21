@@ -111,7 +111,7 @@ export default function Page() {
       "크리에이터를 위한 차세대 음원 수익 플랫폼. 유튜브 쇼츠, 틱톡, 릴스 등 숏폼 콘텐츠를 통해 음원 수익을 자동으로 창출할 수 있습니다.",
     contactPoint: {
       "@type": "ContactPoint",
-      email: "contact@soundrabbit.com",
+      email: "admin@soundrabbitent.com",
       contactType: "Customer Service",
       availableLanguage: ["Korean", "English"],
     },
@@ -155,7 +155,7 @@ function Nav() {
             width={36}
             height={36}
             priority
-            className="brightness-0 invert"
+            style={{ filter: 'brightness(0) invert(1)' }}
           />
           <span className="text-white/90 font-semibold tracking-wide">
             SoundRabbit
@@ -236,8 +236,8 @@ function Hero() {
               width={300}
               height={300}
               priority
-              className="brightness-0 invert object-cover object-top"
-              style={{ marginTop: "-20px" }}
+              className="object-cover object-top"
+              style={{ marginTop: "-20px", filter: 'brightness(0) invert(1)' }}
             />
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
@@ -1069,7 +1069,7 @@ function Footer() {
         </ScrollReveal>
         <ScrollReveal delay={0.2}>
           <div className="text-center mt-8 space-y-1 text-sm text-white/60">
-            <div>Email: contact@soundrabbit.com</div>
+            <div>Email: admin@soundrabbitent.com</div>
             <div>
               Instagram:{" "}
               <a

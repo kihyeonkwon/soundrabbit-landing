@@ -10,11 +10,11 @@ export const metadata: Metadata = {
   title: "사운드래빗 | 당신의 콘텐츠가 곧 수익이 되는 곳",
   description:
     "크리에이터를 위한 차세대 음원 수익 플랫폼. 누구나 손쉽게 자신의 음악을 등록하고, 유튜브 쇼츠·틱톡·더우인 등 숏폼 콘텐츠를 통해 전 세계에 노출되며 자동으로 수익을 창출할 수 있습니다.",
-  icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
-  },
+  icons: [
+    { rel: "icon", url: "/logo.png" },
+    { rel: "shortcut icon", url: "/logo.png" },
+    { rel: "apple-touch-icon", url: "/logo.png" },
+  ],
   keywords: [
     "사운드래빗",
     "SoundRabbit",
