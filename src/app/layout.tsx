@@ -6,7 +6,7 @@ const noto = Noto_Sans_KR({ subsets: ["latin"], variable: "--font-noto" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.soundrabbit.com"),
+  metadataBase: new URL("https://soundrabbitent.com"),
   title: "사운드래빗 | 당신의 콘텐츠가 곧 수익이 되는 곳",
   description:
     "크리에이터를 위한 차세대 음원 수익 플랫폼. 누구나 손쉽게 자신의 음악을 등록하고, 유튜브 쇼츠·틱톡·더우인 등 숏폼 콘텐츠를 통해 전 세계에 노출되며 자동으로 수익을 창출할 수 있습니다.",
@@ -39,15 +39,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: "사운드래빗 | 당신의 콘텐츠가 곧 수익이 되는 곳",
     description:
-      "크리에이터를 위한 차세대 음원 수익 플랫폼. 유튜브 쇼츠, 틱톡, 릴스 등 숏폼 콘텐츠로 음원 수익을 자동 창출하세요.",
-    url: "https://www.soundrabbit.com",
-    siteName: "사운드래빗 SoundRabbit",
+      "크리에이터를 위한 차세대 음원 수익 플랫폼. 누구나 손쉽게 자신의 음악을 등록하고, 유튜브 쇼츠·틱톡·더우인 등 숏폼 콘텐츠를 통해 전 세계에 노출되며 자동으로 수익을 창출할 수 있습니다.",
+    url: "https://soundrabbitent.com",
+    siteName: "사운드래빗",
     images: [
       {
-        url: "/soundrabbit.jpeg",
+        url: "https://soundrabbitent.com/soundrabbit.jpeg",
         width: 1200,
         height: 630,
-        alt: "사운드래빗 - 크리에이터 음원 수익화 플랫폼",
+        alt: "사운드래빗 - 크리에이터를 위한 음원 수익 플랫폼",
       },
     ],
     locale: "ko_KR",
@@ -56,11 +56,11 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "사운드래빗 | 당신의 콘텐츠가 곧 수익이 되는 곳",
-    description: "크리에이터를 위한 차세대 음원 수익 플랫폼",
-    images: ["/soundrabbit.jpeg"],
-    creator: "@soundrabbit",
+    description:
+      "크리에이터를 위한 차세대 음원 수익 플랫폼. 누구나 손쉽게 자신의 음악을 등록하고, 유튜브 쇼츠·틱톡·더우인 등 숏폼 콘텐츠를 통해 전 세계에 노출되며 자동으로 수익을 창출할 수 있습니다.",
+    images: ["https://soundrabbitent.com/soundrabbit.jpeg"],
   },
-  alternates: { canonical: "https://www.soundrabbit.com" },
+  alternates: { canonical: "https://soundrabbitent.com" },
   robots: {
     index: true,
     follow: true,
