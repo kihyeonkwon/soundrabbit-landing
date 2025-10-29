@@ -1,8 +1,10 @@
 "use client";
 import { motion, useInView } from "framer-motion";
 import { useMemo, useRef } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const DASH_URL =
   process.env.NEXT_PUBLIC_DASH_URL ?? "https://app.soundrabbitent.com"; // .env exposure requires NEXT_PUBLIC_
@@ -145,6 +147,8 @@ export default function Page() {
 }
 
 function Nav() {
+  const t = useTranslations("nav");
+
   return (
     <div className="fixed top-0 left-0 right-0 z-40">
       <div className="wrapper flex items-center justify-between py-4">
@@ -163,39 +167,40 @@ function Nav() {
         </Link>
         <nav
           className="hidden md:flex items-center gap-6 text-white/70"
-          aria-label="주요 섹션"
+          aria-label={t("aria")}
         >
           <a
             href="#about"
             className="hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-md px-1"
           >
-            서비스 소개
+            {t("about")}
           </a>
           <a
             href="#pricing"
             className="hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-md px-1"
           >
-            수익 구조
+            {t("pricing")}
           </a>
           <a
             href="#how"
             className="hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-md px-1"
           >
-            이용방법
+            {t("how")}
           </a>
           <a
             href="#faq"
             className="hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-md px-1"
           >
-            FAQ
+            {t("faq")}
           </a>
         </nav>
         <div className="flex items-center gap-3">
+          <LanguageSwitcher />
           <a href={`${DASH_URL}/#/login`} className="button-ghost">
-            로그인
+            {t("login")}
           </a>
           <a href={`${DASH_URL}/#/signup`} className="button-primary">
-            지금 시작하기
+            {t("start")}
           </a>
         </div>
       </div>
@@ -204,10 +209,12 @@ function Nav() {
 }
 
 function Hero() {
+  const t = useTranslations("hero");
+
   return (
     <section
       className="section relative min-h-screen flex items-center"
-      aria-label="메인 배너"
+      aria-label={t("aria")}
     >
       {/* 배경 비디오 */}
       <video
@@ -228,7 +235,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="badge mb-4">모든 크리에이터를 위한 새로운 수익</div>
+          <div className="badge mb-4">{t("badge")}</div>
           <div className="flex justify-center overflow-hidden h-56">
             <Image
               src="/logo.png"
@@ -244,14 +251,14 @@ function Hero() {
             SoundRabbit
           </h1>
           <p className="mt-4 text-lg md:text-2xl text-white/80">
-            음원을 쓰기만 해도 수익이 따라오는 플랫폼.
+            {t("subtitle")}
           </p>
           <div className="mt-8 flex items-center justify-center gap-3">
             <a href={`${DASH_URL}/#/signup`} className="button-primary">
-              지금 시작하기
+              {t("cta")}
             </a>
             <a href="#about" className="button-ghost">
-              서비스 살펴보기
+              {t("learnMore")}
             </a>
           </div>
         </motion.div>
@@ -261,30 +268,26 @@ function Hero() {
 }
 
 function About() {
+  const t = useTranslations("about");
+
   const slider = [
-    { title: "유튜브 쇼츠", icon: "▶", color: "#ef4444" },
-    { title: "브이로그", icon: "📹", color: "#f59e0b" },
-    { title: "광고 영상", icon: "📢", color: "#10b981" },
+    { title: t("slider.shorts"), icon: "▶", color: "#ef4444" },
+    { title: t("slider.vlog"), icon: "📹", color: "#f59e0b" },
+    { title: t("slider.ad"), icon: "📢", color: "#10b981" },
   ];
   return (
-    <section id="about" className="section" aria-label="서비스 소개">
+    <section id="about" className="section" aria-label={t("aria")}>
       <div className="wrapper grid md:grid-cols-2 gap-10 items-center">
         <ScrollReveal>
           <div>
-            <h2 className="text-3xl md:text-5xl font-bold">
-              What is SoundRabbit?
-            </h2>
+            <h2 className="text-3xl md:text-5xl font-bold">{t("title")}</h2>
             <p className="mt-6 text-white/80 leading-relaxed">
-              유튜브, 쇼츠, 브이로그, 광고 등 다양한 콘텐츠에서 음원을 활용하고
-              수익을 창출할 수 있는 크리에이터 수익화 플랫폼입니다.
+              {t("description")}
             </p>
-            <p className="mt-4 text-white/60">
-              콘텐츠를 만들기만 해도 수익이 따라오는 시대, 지금 사운드래빗에서
-              시작하세요.
-            </p>
+            <p className="mt-4 text-white/60">{t("subdescription")}</p>
             <div className="mt-6">
               <a href={`${DASH_URL}/#/signup`} className="button-primary">
-                자세히 알아보기
+                {t("cta")}
               </a>
             </div>
           </div>
@@ -312,7 +315,9 @@ function About() {
                   >
                     {item.title}
                   </div>
-                  <div className="text-sm text-white/60">미리보기</div>
+                  <div className="text-sm text-white/60">
+                    {t("slider.preview")}
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -324,35 +329,33 @@ function About() {
 }
 
 function ShortsRevenue() {
+  const t = useTranslations("shortsRevenue");
+
   const points = [
     {
-      title: "누구나 무료 사용 가능",
-      desc: "회원가입만으로 모든 음원을 무료로 사용",
+      title: t("points.free.title"),
+      desc: t("points.free.desc"),
       color: COLORS.points.emerald,
     },
     {
-      title: "조회수 기반 자동 수익",
-      desc: "영상 조회수에 따라 자동 정산",
+      title: t("points.auto.title"),
+      desc: t("points.auto.desc"),
       color: COLORS.points.blue,
     },
     {
-      title: "쇼츠/롱폼 즉시 적용",
-      desc: "복잡한 등록 없이 바로 사용",
+      title: t("points.instant.title"),
+      desc: t("points.instant.desc"),
       color: COLORS.points.rose,
     },
   ];
   return (
-    <section className="section" aria-label="핵심 포인트">
+    <section className="section" aria-label={t("aria")}>
       <div className="wrapper">
         <ScrollReveal className="text-center">
-          <h2 className="text-3xl md:text-5xl font-bold">
-            사용만 해도 수익 발생
-          </h2>
+          <h2 className="text-3xl md:text-5xl font-bold">{t("title")}</h2>
         </ScrollReveal>
         <ScrollReveal delay={0.2}>
-          <p className="mt-4 text-center text-white/70">
-            영상이 재생되면 조회수에 따라 수익이 자동 정산됩니다.
-          </p>
+          <p className="mt-4 text-center text-white/70">{t("description")}</p>
         </ScrollReveal>
         <StaggerReveal
           className="mt-10 grid md:grid-cols-3 gap-6"
@@ -385,17 +388,15 @@ function ShortsRevenue() {
 }
 
 function RevenueStructure() {
+  const t = useTranslations("revenueStructure");
+
   return (
-    <section id="pricing" className="section" aria-label="수익 구조">
+    <section id="pricing" className="section" aria-label={t("aria")}>
       <div className="wrapper grid md:grid-cols-2 gap-10 items-center">
         <ScrollReveal>
           <div>
-            <h2 className="text-3xl md:text-5xl font-bold">
-              높은 정산, 확실한 수익
-            </h2>
-            <p className="mt-4 text-white/70">
-              중간 유통사 없이 직접 정산하여 최대 수익을 돌려드립니다.
-            </p>
+            <h2 className="text-3xl md:text-5xl font-bold">{t("title")}</h2>
+            <p className="mt-4 text-white/70">{t("description")}</p>
             <ul className="mt-6 space-y-3 text-white/80">
               <motion.li
                 initial={{ opacity: 0, x: -20 }}
@@ -403,7 +404,7 @@ function RevenueStructure() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 viewport={{ once: true }}
               >
-                ✔ 업계 최고 수익률
+                ✔ {t("benefits.topRate")}
               </motion.li>
               <motion.li
                 initial={{ opacity: 0, x: -20 }}
@@ -411,7 +412,7 @@ function RevenueStructure() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                ✔ 타사 대비 최대 5배 수익
+                ✔ {t("benefits.multiply")}
               </motion.li>
               <motion.li
                 initial={{ opacity: 0, x: -20 }}
@@ -419,7 +420,7 @@ function RevenueStructure() {
                 transition={{ duration: 0.5, delay: 0.3 }}
                 viewport={{ once: true }}
               >
-                ✔ 정산 수수료 0%
+                ✔ {t("benefits.noFee")}
               </motion.li>
             </ul>
           </div>
@@ -427,16 +428,20 @@ function RevenueStructure() {
         {/* 심플 바 차트 */}
         <ScrollReveal delay={0.3}>
           <div className="card p-6">
-            <h4 className="font-semibold text-white/80">수익률 비교</h4>
+            <h4 className="font-semibold text-white/80">{t("chart.title")}</h4>
             <div className="mt-6 grid grid-cols-2 gap-6 items-end h-52">
-              <Bar label="업계 평균" ratio={0.4} color="#9ca3af" />
-              <Bar label="사운드래빗" ratio={1.0} color={COLORS.primary} />
+              <Bar label={t("chart.industry")} ratio={0.4} color="#9ca3af" />
+              <Bar
+                label={t("chart.soundrabbit")}
+                ratio={1.0}
+                color={COLORS.primary}
+              />
             </div>
             <div
               className="mt-6 text-center font-semibold"
               style={{ color: COLORS.points.rose }}
             >
-              정산 수수료 0%
+              {t("benefits.noFee")}
             </div>
           </div>
         </ScrollReveal>
@@ -481,24 +486,38 @@ function Bar({
 }
 
 function CustomMusic() {
+  const t = useTranslations("customMusic");
+
   const items = [
-    { title: "광고", emoji: "📢", gradient: COLORS.gradients.accent },
-    { title: "브이로그", emoji: "📹", gradient: COLORS.gradients.secondary },
-    { title: "쇼츠", emoji: "▶", gradient: COLORS.gradients.danger },
-    { title: "게임", emoji: "🎮", gradient: COLORS.gradients.violet },
+    {
+      title: t("categories.ad"),
+      emoji: "📢",
+      gradient: COLORS.gradients.accent,
+    },
+    {
+      title: t("categories.vlog"),
+      emoji: "📹",
+      gradient: COLORS.gradients.secondary,
+    },
+    {
+      title: t("categories.shorts"),
+      emoji: "▶",
+      gradient: COLORS.gradients.danger,
+    },
+    {
+      title: t("categories.game"),
+      emoji: "🎮",
+      gradient: COLORS.gradients.violet,
+    },
   ];
   return (
-    <section className="section" aria-label="맞춤 음원 제작">
+    <section className="section" aria-label={t("aria")}>
       <div className="wrapper">
         <ScrollReveal className="text-center">
-          <h2 className="text-3xl md:text-5xl font-bold">
-            맞춤 음원 제작 서비스
-          </h2>
+          <h2 className="text-3xl md:text-5xl font-bold">{t("title")}</h2>
         </ScrollReveal>
         <ScrollReveal delay={0.2}>
-          <p className="mt-3 text-center text-white/70">
-            영상 분위기/감정/장르에 맞춰 전문 작곡가가 제작합니다.
-          </p>
+          <p className="mt-3 text-center text-white/70">{t("description")}</p>
         </ScrollReveal>
         <StaggerReveal
           className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4"
@@ -525,7 +544,7 @@ function CustomMusic() {
         <ScrollReveal delay={0.5}>
           <div className="text-center mt-10">
             <a href={`${DASH_URL}/#/custom-music`} className="button-primary">
-              음원 제작 의뢰하기
+              {t("cta")}
             </a>
           </div>
         </ScrollReveal>
@@ -535,6 +554,8 @@ function CustomMusic() {
 }
 
 function RealtimeDashboard() {
+  const t = useTranslations("dashboard");
+
   const revenueData = useMemo(() => {
     // 시드 기반 의사 난수 생성 (deterministic)
     const seededRandom = (seed: number) => {
@@ -617,24 +638,24 @@ function RealtimeDashboard() {
 
   const stats = [
     {
-      label: "오늘 예상 정산액",
+      label: t("stats.today"),
       value: formatCurrency(todayRevenue),
-      helper: "실시간 집계 기준",
+      helper: t("stats.todayHelper"),
     },
     {
-      label: "최근 7일 수익",
+      label: t("stats.week"),
       value: formatCurrency(weeklyRevenue),
-      helper: "조회수 기반 자동 정산",
+      helper: t("stats.weekHelper"),
     },
     {
-      label: "최근 30일 수익",
+      label: t("stats.month"),
       value: formatCurrency(monthlyRevenue),
-      helper: "상승 추세 반영",
+      helper: t("stats.monthHelper"),
     },
   ];
 
   return (
-    <section className="section" aria-label="실시간 수익 대시보드">
+    <section className="section" aria-label={t("aria")}>
       <div className="wrapper">
         <ScrollReveal delay={0.2}>
           <StaggerReveal
@@ -659,10 +680,10 @@ function RealtimeDashboard() {
           <div className="card p-6 mt-6">
             <div className="flex items-center justify-between mb-4">
               <div className="text-white/80 font-semibold">
-                최근 90일 수익 추세
+                {t("chartTitle")}
               </div>
               <div className="text-sm text-white/60">
-                최고: ${Math.round(maxRevenue)} | 최저: $
+                {t("max")}: ${Math.round(maxRevenue)} | {t("min")}: $
                 {Math.round(minRevenue)}
               </div>
             </div>
@@ -829,38 +850,38 @@ function RealtimeDashboard() {
 }
 
 function Testimonials() {
+  const t = useTranslations("testimonials");
+
   const items = [
     {
-      quote: '"쇼츠 수익까지 챙길 수 있어 만족합니다."',
-      name: "크리에이터 A",
-      role: "게임 크리에이터",
+      quote: t("items.0.quote"),
+      name: t("items.0.name"),
+      role: t("items.0.role"),
     },
     {
-      quote: '"음원 제작 퀄리티가 방송국급이에요."',
-      name: "유튜버 B",
-      role: "음악 크리에이터",
+      quote: t("items.1.quote"),
+      name: t("items.1.name"),
+      role: t("items.1.role"),
     },
     {
-      quote: '"콘텐츠 퀄리티도 높이고 수익도 올렸습니다."',
-      name: "숏폼 제작자 C",
-      role: "브이로그 크리에이터",
+      quote: t("items.2.quote"),
+      name: t("items.2.name"),
+      role: t("items.2.role"),
     },
   ];
   return (
-    <section className="section" aria-label="크리에이터 후기">
+    <section className="section" aria-label={t("aria")}>
       <div className="wrapper">
         <ScrollReveal className="text-center">
-          <h2 className="text-3xl md:text-5xl font-bold">
-            크리에이터들의 리얼 후기
-          </h2>
+          <h2 className="text-3xl md:text-5xl font-bold">{t("title")}</h2>
         </ScrollReveal>
         <StaggerReveal
           className="mt-10 grid md:grid-cols-3 gap-6"
           staggerDelay={0.2}
         >
-          {items.map((t) => (
+          {items.map((testimonial) => (
             <motion.div
-              key={t.name}
+              key={testimonial.name}
               className="card p-6"
               whileHover={{ scale: 1.02, y: -5 }}
               transition={{ duration: 0.2 }}
@@ -874,7 +895,9 @@ function Testimonials() {
               >
                 &ldquo;
               </motion.div>
-              <p className="mt-2 text-white/90 leading-relaxed">{t.quote}</p>
+              <p className="mt-2 text-white/90 leading-relaxed">
+                {testimonial.quote}
+              </p>
               <div className="mt-6 flex items-center gap-3">
                 <motion.div
                   className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
@@ -884,11 +907,13 @@ function Testimonials() {
                   transition={{ duration: 0.3, delay: 0.2 }}
                   viewport={{ once: true }}
                 >
-                  {t.name.slice(-1)}
+                  {testimonial.name.slice(-1)}
                 </motion.div>
                 <div>
-                  <div className="font-semibold">{t.name}</div>
-                  <div className="text-xs text-white/60">{t.role}</div>
+                  <div className="font-semibold">{testimonial.name}</div>
+                  <div className="text-xs text-white/60">
+                    {testimonial.role}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -900,33 +925,33 @@ function Testimonials() {
 }
 
 function HowTo() {
+  const t = useTranslations("howTo");
+
   const steps = [
     {
       n: "1",
-      title: "회원가입 & 음원 사용 시작",
-      desc: "모든 음원을 무료로 사용",
+      title: t("steps.0.title"),
+      desc: t("steps.0.desc"),
       gradient: COLORS.gradients.primary,
     },
     {
       n: "2",
-      title: "영상 업로드 & 수익 집계",
-      desc: "조회수 기반 자동 정산",
+      title: t("steps.1.title"),
+      desc: t("steps.1.desc"),
       gradient: COLORS.gradients.secondary,
     },
     {
       n: "3",
-      title: "주간 자동 정산",
-      desc: "정기적으로 수익 수령",
+      title: t("steps.2.title"),
+      desc: t("steps.2.desc"),
       gradient: COLORS.gradients.violet,
     },
   ];
   return (
-    <section id="how" className="section" aria-label="이용 방법">
+    <section id="how" className="section" aria-label={t("aria")}>
       <div className="wrapper">
         <ScrollReveal className="text-center">
-          <h2 className="text-3xl md:text-5xl font-bold">
-            이용 방법 – 쉬운 3단계
-          </h2>
+          <h2 className="text-3xl md:text-5xl font-bold">{t("title")}</h2>
         </ScrollReveal>
         <StaggerReveal
           className="mt-10 grid md:grid-cols-3 gap-6"
@@ -956,7 +981,7 @@ function HowTo() {
         <ScrollReveal delay={0.4}>
           <div className="text-center mt-10">
             <a href={`${DASH_URL}/#/signup`} className="button-primary">
-              지금 시작하기
+              {t("cta")}
             </a>
           </div>
         </ScrollReveal>
@@ -966,25 +991,27 @@ function HowTo() {
 }
 
 function FAQ() {
+  const t = useTranslations("faq");
+
   const items = [
     {
-      q: "정산은 어떻게 이뤄지나요?",
-      a: "영상 조회 데이터를 기반으로 매주 자동 정산이 진행됩니다. 정산 금액 및 내역은 대시보드에서 실시간으로 확인하실 수 있습니다.",
+      q: t("items.0.q"),
+      a: t("items.0.a"),
     },
     {
-      q: "상업적 이용이 가능한가요?",
-      a: "네, SoundRabbit 내 제공 음원은 약관 허용 범위에서 상업적 이용이 가능합니다.",
+      q: t("items.1.q"),
+      a: t("items.1.a"),
     },
     {
-      q: "저작권 문제는 없나요?",
-      a: "모든 음원은 콘텐츠 ID 및 정식 파트너십을 통해 안전하게 관리되며, 저작권 분쟁 발생 시 SoundRabbit이 정식 절차에 따라 대응을 지원합니다.",
+      q: t("items.2.q"),
+      a: t("items.2.a"),
     },
   ];
   return (
-    <section id="faq" className="section" aria-label="자주 묻는 질문">
+    <section id="faq" className="section" aria-label={t("aria")}>
       <div className="wrapper">
         <ScrollReveal className="text-center">
-          <h2 className="text-3xl md:text-5xl font-bold">FAQ</h2>
+          <h2 className="text-3xl md:text-5xl font-bold">{t("title")}</h2>
         </ScrollReveal>
         <StaggerReveal className="mt-8 space-y-3" staggerDelay={0.1}>
           {items.map((it, idx) => (
@@ -1020,8 +1047,10 @@ function FAQ() {
 }
 
 function Footer() {
+  const t = useTranslations("footer");
+
   return (
-    <footer className="section pb-16" aria-label="푸터">
+    <footer className="section pb-16" aria-label={t("aria")}>
       <div className="wrapper">
         <ScrollReveal>
           <div className="flex flex-wrap items-center justify-center gap-6 text-white/70">
@@ -1031,7 +1060,7 @@ function Footer() {
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2 }}
             >
-              서비스 소개
+              {t("links.about")}
             </motion.a>
             <motion.a
               href="#pricing"
@@ -1039,7 +1068,7 @@ function Footer() {
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2 }}
             >
-              이용약관
+              {t("links.terms")}
             </motion.a>
             <motion.a
               href="#faq"
@@ -1047,7 +1076,7 @@ function Footer() {
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2 }}
             >
-              개인정보처리방침
+              {t("links.privacy")}
             </motion.a>
             <motion.a
               href="#faq"
@@ -1055,7 +1084,7 @@ function Footer() {
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2 }}
             >
-              FAQ
+              {t("links.faq")}
             </motion.a>
             <motion.a
               href="#"
@@ -1063,13 +1092,13 @@ function Footer() {
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2 }}
             >
-              문의하기
+              {t("links.contact")}
             </motion.a>
           </div>
         </ScrollReveal>
         <ScrollReveal delay={0.2}>
           <div className="text-center mt-8 space-y-1 text-sm text-white/60">
-            <div>Email: admin@soundrabbitent.com</div>
+            <div>{t("contact.email")}: admin@soundrabbitent.com</div>
             <div>
               Instagram:{" "}
               <a
@@ -1086,7 +1115,7 @@ function Footer() {
         </ScrollReveal>
         <ScrollReveal delay={0.3}>
           <div className="mt-8 border-t border-white/10 pt-6 text-center text-sm text-white/50">
-            © {new Date().getFullYear()} SoundRabbit. All rights reserved.
+            © {new Date().getFullYear()} SoundRabbit. {t("copyright")}
           </div>
         </ScrollReveal>
       </div>

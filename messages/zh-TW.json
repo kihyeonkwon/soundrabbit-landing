@@ -1,0 +1,168 @@
+{
+  "nav": {
+    "aria": "主要區塊",
+    "about": "服務介紹",
+    "pricing": "收益結構",
+    "how": "使用方法",
+    "faq": "常見問題",
+    "login": "登入",
+    "start": "立即開始"
+  },
+  "hero": {
+    "aria": "主橫幅",
+    "badge": "為所有創作者打造的全新收益",
+    "title": "SoundRabbit",
+    "subtitle": "只需使用音源就能創造收益的平台。",
+    "cta": "立即開始",
+    "learnMore": "探索服務"
+  },
+  "about": {
+    "aria": "服務介紹",
+    "title": "What is SoundRabbit?",
+    "description": "在YouTube、短影音、Vlog、廣告等各種內容中活用音源並創造收益的創作者變現平台。",
+    "subdescription": "只要製作內容就能帶來收益的時代，現在就從SoundRabbit開始。",
+    "cta": "了解更多",
+    "slider": {
+      "shorts": "YouTube短影音",
+      "vlog": "Vlog",
+      "ad": "廣告影片",
+      "preview": "預覽"
+    }
+  },
+  "shortsRevenue": {
+    "aria": "核心重點",
+    "title": "使用即可產生收益",
+    "description": "影片播放後，將根據觀看次數自動結算收益。",
+    "points": {
+      "free": {
+        "title": "人人都能免費使用",
+        "desc": "只需註冊會員即可免費使用所有音源"
+      },
+      "auto": {
+        "title": "基於觀看次數的自動收益",
+        "desc": "根據影片觀看次數自動結算"
+      },
+      "instant": {
+        "title": "短影音/長影音即時應用",
+        "desc": "無需複雜登錄立即使用"
+      }
+    }
+  },
+  "revenueStructure": {
+    "aria": "收益結構",
+    "title": "高額結算，確實收益",
+    "description": "無中間通路商直接結算，回饋最大收益。",
+    "benefits": {
+      "topRate": "業界最高收益率",
+      "multiply": "相較其他平台最高5倍收益",
+      "noFee": "結算手續費0%"
+    },
+    "chart": {
+      "title": "收益率比較",
+      "industry": "業界平均",
+      "soundrabbit": "SoundRabbit"
+    }
+  },
+  "customMusic": {
+    "aria": "客製化音源製作",
+    "title": "客製化音源製作服務",
+    "description": "專業作曲家根據影片氛圍、情感、風格量身打造。",
+    "categories": {
+      "ad": "廣告",
+      "vlog": "Vlog",
+      "shorts": "短影音",
+      "game": "遊戲"
+    },
+    "cta": "委託音源製作"
+  },
+  "dashboard": {
+    "aria": "即時收益儀表板",
+    "stats": {
+      "today": "今日預估結算金額",
+      "week": "最近7天收益",
+      "month": "最近30天收益",
+      "todayHelper": "即時統計基準",
+      "weekHelper": "基於觀看次數自動結算",
+      "monthHelper": "反映上升趨勢"
+    },
+    "chartTitle": "最近90天收益趨勢",
+    "max": "最高",
+    "min": "最低"
+  },
+  "testimonials": {
+    "aria": "創作者評價",
+    "title": "創作者真實評價",
+    "items": {
+      "0": {
+        "quote": "連短影音收益都能拿到，很滿意。",
+        "name": "創作者A",
+        "role": "遊戲創作者"
+      },
+      "1": {
+        "quote": "音源製作品質達到電視台水準。",
+        "name": "YouTuber B",
+        "role": "音樂創作者"
+      },
+      "2": {
+        "quote": "內容品質提升，收益也增加了。",
+        "name": "短影音製作者C",
+        "role": "Vlog創作者"
+      }
+    }
+  },
+  "howTo": {
+    "aria": "使用方法",
+    "title": "使用方法 – 簡單3步驟",
+    "steps": {
+      "0": {
+        "title": "註冊會員&開始使用音源",
+        "desc": "免費使用所有音源"
+      },
+      "1": {
+        "title": "上傳影片&收益統計",
+        "desc": "基於觀看次數自動結算"
+      },
+      "2": {
+        "title": "每週自動結算",
+        "desc": "定期領取收益"
+      }
+    },
+    "cta": "立即開始"
+  },
+  "faq": {
+    "aria": "常見問題",
+    "title": "常見問題",
+    "items": {
+      "0": {
+        "q": "如何進行結算？",
+        "a": "根據影片觀看數據每週自動進行結算。結算金額與明細可在儀表板即時查看。"
+      },
+      "1": {
+        "q": "可以商業使用嗎？",
+        "a": "是的，SoundRabbit提供的音源在條款允許範圍內可進行商業使用。"
+      },
+      "2": {
+        "q": "會有著作權問題嗎？",
+        "a": "所有音源透過內容ID與正式合作關係安全管理，發生著作權爭議時SoundRabbit將依正式程序提供支援。"
+      }
+    }
+  },
+  "footer": {
+    "aria": "頁尾",
+    "links": {
+      "about": "服務介紹",
+      "terms": "使用條款",
+      "privacy": "隱私政策",
+      "faq": "常見問題",
+      "contact": "聯絡我們"
+    },
+    "contact": {
+      "email": "電子郵件"
+    },
+    "copyright": "All rights reserved."
+  },
+  "metadata": {
+    "title": "SoundRabbit | 您的內容即是收益的所在",
+    "description": "為創作者打造的次世代音源收益平台。人人都能輕鬆註冊自己的音樂，透過YouTube短影音、TikTok、抖音等短影音內容向全世界曝光並自動創造收益。"
+  }
+}

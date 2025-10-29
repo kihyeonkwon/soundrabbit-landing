@@ -1,0 +1,168 @@
+{
+  "nav": {
+    "aria": "主要区块",
+    "about": "服务介绍",
+    "pricing": "收益结构",
+    "how": "使用方法",
+    "faq": "常见问题",
+    "login": "登录",
+    "start": "立即开始"
+  },
+  "hero": {
+    "aria": "主横幅",
+    "badge": "为所有创作者打造的全新收益",
+    "title": "SoundRabbit",
+    "subtitle": "只需使用音源就能创造收益的平台。",
+    "cta": "立即开始",
+    "learnMore": "探索服务"
+  },
+  "about": {
+    "aria": "服务介绍",
+    "title": "What is SoundRabbit?",
+    "description": "在YouTube、短视频、Vlog、广告等各种内容中活用音源并创造收益的创作者变现平台。",
+    "subdescription": "只要制作内容就能带来收益的时代，现在就从SoundRabbit开始。",
+    "cta": "了解更多",
+    "slider": {
+      "shorts": "YouTube短视频",
+      "vlog": "Vlog",
+      "ad": "广告视频",
+      "preview": "预览"
+    }
+  },
+  "shortsRevenue": {
+    "aria": "核心重点",
+    "title": "使用即可产生收益",
+    "description": "视频播放后，将根据观看次数自动结算收益。",
+    "points": {
+      "free": {
+        "title": "人人都能免费使用",
+        "desc": "只需注册会员即可免费使用所有音源"
+      },
+      "auto": {
+        "title": "基于观看次数的自动收益",
+        "desc": "根据视频观看次数自动结算"
+      },
+      "instant": {
+        "title": "短视频/长视频即时应用",
+        "desc": "无需复杂登录立即使用"
+      }
+    }
+  },
+  "revenueStructure": {
+    "aria": "收益结构说明",
+    "title": "高额结算，确实收益",
+    "description": "无中间渠道商直接结算，回馈最大收益。",
+    "benefits": {
+      "topRate": "业界最高收益率",
+      "multiply": "相较其他平台最高5倍收益",
+      "noFee": "结算手续费0%"
+    },
+    "chart": {
+      "title": "收益率比较",
+      "industry": "业界平均",
+      "soundrabbit": "SoundRabbit"
+    }
+  },
+  "customMusic": {
+    "aria": "定制音源制作服务",
+    "title": "定制音源制作服务",
+    "description": "专业作曲家根据视频氛围、情感、风格量身打造。",
+    "categories": {
+      "ad": "广告",
+      "vlog": "Vlog",
+      "shorts": "短视频",
+      "game": "游戏"
+    },
+    "cta": "委托音源制作"
+  },
+  "dashboard": {
+    "aria": "实时统计资讯",
+    "stats": {
+      "today": "今日预估结算金额",
+      "week": "最近7天收益",
+      "month": "最近30天收益",
+      "todayHelper": "实时统计基准",
+      "weekHelper": "基于观看次数自动结算",
+      "monthHelper": "反映上升趋势"
+    },
+    "chartTitle": "最近90天收益趋势",
+    "max": "最高",
+    "min": "最低"
+  },
+  "testimonials": {
+    "aria": "用户评价",
+    "title": "创作者真实评价",
+    "items": {
+      "0": {
+        "quote": "连短视频收益都能拿到，很满意。",
+        "name": "创作者A",
+        "role": "游戏创作者"
+      },
+      "1": {
+        "quote": "音源制作品质达到电视台水准。",
+        "name": "YouTuber B",
+        "role": "音乐创作者"
+      },
+      "2": {
+        "quote": "内容品质提升，收益也增加了。",
+        "name": "短视频制作者C",
+        "role": "Vlog创作者"
+      }
+    }
+  },
+  "howTo": {
+    "aria": "使用方法指南",
+    "title": "使用方法 – 简单3步骤",
+    "steps": {
+      "0": {
+        "title": "注册会员&开始使用音源",
+        "desc": "免费使用所有音源"
+      },
+      "1": {
+        "title": "上传视频&收益统计",
+        "desc": "基于观看次数自动结算"
+      },
+      "2": {
+        "title": "每周自动结算",
+        "desc": "定期领取收益"
+      }
+    },
+    "cta": "立即开始"
+  },
+  "faq": {
+    "aria": "常见问题",
+    "title": "常见问题",
+    "items": {
+      "0": {
+        "q": "如何进行结算？",
+        "a": "根据视频观看数据每周自动进行结算。结算金额与明细可在仪表板实时查看。"
+      },
+      "1": {
+        "q": "可以商业使用吗？",
+        "a": "是的，SoundRabbit提供的音源在条款允许范围内可进行商业使用。"
+      },
+      "2": {
+        "q": "会有著作权问题吗？",
+        "a": "所有音源通过内容ID与正式合作关系安全管理，发生著作权争议时SoundRabbit将依正式程序提供支持。"
+      }
+    }
+  },
+  "footer": {
+    "aria": "页面底部资讯",
+    "links": {
+      "about": "服务介绍",
+      "terms": "使用条款",
+      "privacy": "隐私政策",
+      "faq": "常见问题",
+      "contact": "联系我们"
+    },
+    "contact": {
+      "email": "电子邮件"
+    },
+    "copyright": "All rights reserved."
+  },
+  "metadata": {
+    "title": "SoundRabbit | 您的内容即是收益的所在",
+    "description": "为创作者打造的次世代音源收益平台。人人都能轻松注册自己的音乐，通过YouTube短视频、TikTok、抖音等短视频内容向全世界曝光并自动创造收益。"
+  }
+}
